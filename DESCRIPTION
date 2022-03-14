@@ -1,11 +1,10 @@
 Package: ddvR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Parsing weekly DDV data from FURS 
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: majazaloznik
+Maintainer: majazaloznik <maja.zaloznik@gmail.com>
+Description: The package performs basic checks on the input csv files and prepares the data to be inserted into the database.
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
