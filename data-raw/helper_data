@@ -1,0 +1,3 @@
+colz <- c("DATUM", "STOPNJA", "ST_DEJAVNOSTI", "OSNOVA_DAVKA",
+          "STEVILO", "ZNESEK", "ZNESEK_DAVKA")
+usethis::use_data(colz,  internal = TRUE)
