@@ -7,6 +7,7 @@ Authors@R: person("Maja", "Zaloznik", email = "maja.zaloznik@gmail.com",
 Maintainer: majazaloznik <maja.zaloznik@gmail.com>
 Description: The package performs basic checks on the input csv files and 
     prepares the data to be inserted into the database.
+Depends: R (>= 4.1.0)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
