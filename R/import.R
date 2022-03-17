@@ -5,8 +5,9 @@
 #' @param input absolute or relative path to .csv file
 #'
 #' @return data frame.
+#'@export
 read_file <- function(input) {
-  df <- read.csv2(input)
+  df <- utils::read.csv2(input)
   df
 }
 
@@ -15,6 +16,7 @@ read_file <- function(input) {
 #' @param df data frame output of \link[ddvR]{read_file}
 #'
 #' @return logical
+#' @export
 check_columns <- function(df) {
   all.equal(colnames(df), colz)
 }
@@ -30,6 +32,7 @@ check_columns <- function(df) {
 #' @param df data frame output of \link[ddvR]{read_file}
 #'
 #' @return data frame with same dimensions as input
+#' @export
 fix_types <- function(df) {
   df   %>%
     dplyr::mutate(DATUM = as.Date(DATUM, format = "%d.%m.%Y"),
@@ -48,10 +51,11 @@ fix_types <- function(df) {
 #' @param df data frame output of \link[ddvR]{fix_types}
 #'
 #' @return data frame with same number of columns as input and possibly fewer rows
+#' @export
 remove_na_rows <- function(df) {
   df  %>%
     dplyr::select(-ST_DEJAVNOSTI) %>%
-    complete.cases() %>%
+    stats::complete.cases() %>%
     # `!` %>% # if you want to see incomplete cases
     df[., ]
 }
