@@ -61,5 +61,26 @@ remove_na_rows <- function(df) {
 }
 
 
+#' Remove illegal values for STOPNJA
+#'
+#' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
+#'
+#' @return data frame with same number of columns as input and possibly fewer rows
+#' @export
+remove_xrates <- function(df) {
+  df %>%
+    dplyr::filter(STOPNJA %in% ratez)
+}
 
+
+#' Remove illegal values for ST_DEJAVNOSTI
+#'
+#' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
+#'
+#' @return data frame with same number of columns as input and possibly fewer rows
+#' @export
+remove_xskd <- function(df) {
+  df %>%
+    dplyr::filter(ST_DEJAVNOSTI %in% skdz)
+}
 

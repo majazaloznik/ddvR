@@ -1,0 +1,25 @@
+colz <- c("DATUM", "STOPNJA", "ST_DEJAVNOSTI", "OSNOVA_DAVKA",
+          "STEVILO", "ZNESEK", "ZNESEK_DAVKA")
+
+ratez <- c("22%", "9,5%",    "5%", "ostalo")
+
+# get skd
+library(readxl)
+url <- "https://www.stat.si/Klasje/Klasje/createXlsx?q=5531&s=1"
+temp <- tempfile()
+download.file(url,temp, mode = "wb")
+nace <- read_excel(temp)
+unlink(temp)
+
+nace %>%
+  dplyr::filter(nchar(`Šifra kategorije`) == 7) %>%
+  dplyr::mutate(skd.5 = gsub("[^0-9.]+", "", `Šifra kategorije`)) %>%
+  dplyr::select(skd.5) %>%
+  dplyr::pull()-> skdz
+
+
+usethis::use_data(colz,
+                  ratez,
+                  skdz,
+                  internal = TRUE, overwrite = TRUE)
+
