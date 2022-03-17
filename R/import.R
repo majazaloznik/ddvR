@@ -81,6 +81,6 @@ remove_xrates <- function(df) {
 #' @export
 remove_xskd <- function(df) {
   df %>%
-    dplyr::filter(ST_DEJAVNOSTI %in% skdz)
+    dplyr::filter(ST_DEJAVNOSTI %in% c(skdz, ""))
 }
 
