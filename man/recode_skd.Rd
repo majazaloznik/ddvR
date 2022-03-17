@@ -2,7 +2,7 @@
 % Please edit documentation in R/import.R
 \name{recode_skd}
 \alias{recode_skd}
-\title{Recodes known old SKD codes}
+\title{Recodes known old and wrong SKD codes}
 \usage{
 recode_skd(df)
 }
@@ -17,4 +17,6 @@ Sometimes old SKD codes are used instead of new ones. When these old ones
 don't exist in the new classification, we can flag them and replace them
 with the correct ones. This says nothing about the cases where old codes
 are used and there is no way for us to know.¯\_(ツ)_/¯
+Additionally, some inputs might have a 4-digit skd code with the leading
+0 missing. This function tacks the 0 back on.
 }

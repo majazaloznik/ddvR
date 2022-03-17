@@ -27,7 +27,7 @@ test_that("only legal values are in coded columns", {
  expect_equal(nrow(clean_rates), 15)
  recoded <- recode_skd(fix_types(read_file(
    test_path("testdata", "test_import_04.csv"))))
- expect_equal(unique(recoded$ST_DEJAVNOSTI), c("01.210", "49.410"))
+ expect_equal(unique(recoded$ST_DEJAVNOSTI), c("01.210", "49.410", "01.610"))
  clean_skd <- remove_xskd(fix_types(read_file(
    test_path("testdata", "test_import_03.csv"))))
  expect_equal(nrow(clean_skd), 14)

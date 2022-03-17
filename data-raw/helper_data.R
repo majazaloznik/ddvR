@@ -4,7 +4,11 @@ colz <- c("DATUM", "STOPNJA", "ST_DEJAVNOSTI", "OSNOVA_DAVKA",
 ratez <- c("22%", "9,5%",    "5%", "ostalo")
 
 skd_recode_lookup <- list("01.131" = "01.210",
-                          "60.240" = "49.410")
+                          "60.240" = "49.410",
+                          "55.232" = "55.202",
+                          "28.520" = "25.520",
+                          "25.240" = "22.290",
+                          "45.420" = "43.320")
 
 # get skd
 library(readxl)
