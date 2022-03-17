@@ -73,6 +73,22 @@ remove_xrates <- function(df) {
 }
 
 
+#' Recodes known old SKD codes
+#'
+#' Sometimes old SKD codes are used instead of new ones. When these old ones
+#' don't exist in the new classification, we can flag them and replace them
+#' with the correct ones. This says nothing about the cases where old codes
+#' are used and there is no way for us to know.¯\_(ツ)_/¯
+#' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
+#'
+#' @return data frame with same dimensions as input
+#' @export
+
+recode_skd <- function(df) {
+  df %>%
+    dplyr::mutate(ST_DEJAVNOSTI = dplyr::recode(ST_DEJAVNOSTI, !!!skd_recode_lookup))
+}
+
 #' Remove illegal values for ST_DEJAVNOSTI
 #'
 #' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
