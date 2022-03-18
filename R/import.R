@@ -86,13 +86,19 @@ recode_skd <- function(df) {
 
 #' Remove illegal values for ST_DEJAVNOSTI
 #'
+#' First remove all rows where the format is not xx.xxx or empty. of the remaining ones
+#' leave the ones in the code table, the rest make empty, since they are unknown
+#' in the new classification.
+#'
 #' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
 #'
 #' @return data frame with same number of columns as input and possibly fewer rows
 #' @export
 remove_xskd <- function(df) {
   df %>%
-    dplyr::filter(ST_DEJAVNOSTI %in% c(skdz, ""))
+    dplyr::filter(grepl("^[0-9]{2}\\.[0-9]{3}$", ST_DEJAVNOSTI)| ST_DEJAVNOSTI == "") %>%
+    dplyr::mutate(ST_DEJAVNOSTI =
+                    ifelse(!ST_DEJAVNOSTI %in% c(skdz, ""), "", ST_DEJAVNOSTI))
 }
 
 

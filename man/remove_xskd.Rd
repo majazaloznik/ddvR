@@ -13,5 +13,7 @@ remove_xskd(df)
 data frame with same number of columns as input and possibly fewer rows
 }
 \description{
-Remove illegal values for ST_DEJAVNOSTI
+First remove all rows where the format is not xx.xxx or empty. of the remaining ones
+leave the ones in the code table, the rest make empty, since they are unknown
+in the new classification
 }

@@ -24,17 +24,19 @@ test_that("column types have been fixed correctly", {
 test_that("only legal values are in coded columns", {
  clean_rates <- remove_xrates(fix_types(read_file(
    test_path("testdata", "test_import_03.csv"))))
- expect_equal(nrow(clean_rates), 15)
+ expect_equal(nrow(clean_rates), 16)
  recoded <- recode_skd(fix_types(read_file(
    test_path("testdata", "test_import_04.csv"))))
- expect_equal(unique(recoded$ST_DEJAVNOSTI), c("01.210", "49.410", "01.610"))
- clean_skd <- remove_xskd(fix_types(read_file(
-   test_path("testdata", "test_import_03.csv"))))
- expect_equal(nrow(clean_skd), 14)
- clean_codes <- remove_xskd(remove_xrates(fix_types(read_file(
+ expect_equal(unique(recoded$ST_DEJAVNOSTI), c("01.210", "49.410", "01.610",
+                                               "08.610", "25.520", "22.290", "43.320"))
+ clean_skd <- remove_xskd(recode_skd(fix_types(read_file(
    test_path("testdata", "test_import_03.csv")))))
- expect_equal(nrow(clean_codes), 11)
- clean_df <- remove_na_rows(remove_xskd(remove_xrates(fix_types(read_file(
-   test_path("testdata", "test_import_03.csv"))))))
+ expect_equal(nrow(clean_skd), 15)
+ clean_codes <- remove_xrates(fix_types(read_file(
+   test_path("testdata", "test_import_03.csv"))))
+ expect_equal(nrow(clean_codes), 16)
+ clean_df <- remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
+   test_path("testdata", "test_import_03.csv")))))))
+ expect_equal(nrow(clean_df), 8)
  })
 
