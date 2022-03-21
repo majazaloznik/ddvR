@@ -14,7 +14,7 @@ test_that("column types have been fixed correctly", {
   is.date <- function(x) inherits(x, 'Date')
   expect_equal(is.date(df_types$DATUM), TRUE)
   expect_type(df_types$STOPNJA, "character")
-  expect_type(df_types$ST_DEJAVNOSTI , "character")
+  expect_type(df_types$SKD_5 , "character")
   expect_type(df_types$OSNOVA_DAVKA, "double")
   expect_type(df_types$STEVILO, "double")
   expect_type(df_types$ZNESEK, "double")
@@ -27,7 +27,7 @@ test_that("only legal values are in coded columns", {
  expect_equal(nrow(clean_rates), 16)
  recoded <- recode_skd(fix_types(read_file(
    test_path("testdata", "test_import_04.csv"))))
- expect_equal(unique(recoded$ST_DEJAVNOSTI), c("01.210", "49.410", "01.610",
+ expect_equal(unique(recoded$SKD_5), c("01.210", "49.410", "01.610",
                                                "08.610", "25.520", "22.290", "43.320"))
  clean_skd <- remove_xskd(recode_skd(fix_types(read_file(
    test_path("testdata", "test_import_03.csv")))))

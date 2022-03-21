@@ -28,7 +28,8 @@ check_columns <- function(df) {
 #' The output of \link[ddvR]{read_file} will usually have only character types
 #' because of a faulty header row. This function fixes the column types, which
 #' also introduces NAs by coersion. These are later removed with
-#' the \link[ddvR]{remove_na_rows} function.
+#' the \link[ddvR]{remove_na_rows} function. Also rename ST_DEJAVNOSTI while i'm
+#' at it
 #'
 #' @param df data frame output of \link[ddvR]{read_file}
 #'
@@ -41,7 +42,9 @@ fix_types <- function(df) {
                     as.numeric(gsub(",", ".", OSNOVA_DAVKA))),
                   STEVILO = suppressWarnings(as.numeric(STEVILO)),
                   ZNESEK = suppressWarnings(as.numeric(gsub(",", ".", ZNESEK))),
-                  ZNESEK_DAVKA = suppressWarnings(as.numeric(gsub(",", ".",ZNESEK_DAVKA))))
+                  ZNESEK_DAVKA = suppressWarnings(as.numeric(gsub(",", ".",ZNESEK_DAVKA))),
+                  SKD_5 = ST_DEJAVNOSTI) %>%
+    dplyr::select(-ST_DEJAVNOSTI)
 
 }
 
@@ -74,13 +77,13 @@ remove_xrates <- function(df) {
 recode_skd <- function(df) {
   df %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(ST_DEJAVNOSTI =
+    dplyr::mutate(SKD_5 =
                     sub("^[1-9]{1}\\.",
-                        paste0("0", regmatches(ST_DEJAVNOSTI,
-                                               regexpr("^[1-9]{1}\\.",ST_DEJAVNOSTI))),
-                        ST_DEJAVNOSTI)) %>%
-    dplyr::mutate(ST_DEJAVNOSTI =
-                    dplyr::recode(ST_DEJAVNOSTI, !!!skd_recode_lookup))
+                        paste0("0", regmatches(SKD_5,
+                                               regexpr("^[1-9]{1}\\.",SKD_5))),
+                        SKD_5)) %>%
+    dplyr::mutate(SKD_5 =
+                    dplyr::recode(SKD_5, !!!skd_recode_lookup))
 }
 
 
@@ -96,9 +99,9 @@ recode_skd <- function(df) {
 #' @export
 remove_xskd <- function(df) {
   df %>%
-    dplyr::filter(grepl("^[0-9]{2}\\.[0-9]{3}$", ST_DEJAVNOSTI)| ST_DEJAVNOSTI == "") %>%
-    dplyr::mutate(ST_DEJAVNOSTI =
-                    ifelse(!ST_DEJAVNOSTI %in% c(skdz, ""), "", ST_DEJAVNOSTI))
+    dplyr::filter(grepl("^[0-9]{2}\\.[0-9]{3}$", SKD_5)| SKD_5 == "") %>%
+    dplyr::mutate(SKD_5 =
+                    ifelse(!SKD_5 %in% c(skdz, ""), "", SKD_5))
 }
 
 
@@ -110,7 +113,7 @@ remove_xskd <- function(df) {
 #' @export
 remove_na_rows <- function(df) {
   df  %>%
-    dplyr::select(-ST_DEJAVNOSTI) %>%
+    dplyr::select(-SKD_5) %>%
     stats::complete.cases() %>%
     # `!` %>% # if you want to see incomplete cases
     df[., ]

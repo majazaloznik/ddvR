@@ -16,5 +16,6 @@ data frame with same dimensions as input
 The output of \link[ddvR]{read_file} will usually have only character types
 because of a faulty header row. This function fixes the column types, which
 also introduces NAs by coersion. These are later removed with
-the \link[ddvR]{remove_na_rows} function.
+the \link[ddvR]{remove_na_rows} function. Also rename ST_DEJAVNOSTI while i'm
+at it
 }

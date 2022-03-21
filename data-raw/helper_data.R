@@ -42,7 +42,7 @@ skd_filter_codes <- c(35, 36, 52, 61, 64)
 retail <- read.csv2("data-raw/47.csv")
 
 retail %>%
-  dplyr::mutate(ST_DEJAVNOSTI = gsub("[A-z]{1}", "", ST_DEJAVNOSTI)) -> retail_codes
+  dplyr::mutate(SKD_5 = gsub("[A-z]{1}", "", SKD_5)) -> retail_codes
 
 usethis::use_data(colz,
                   ratez,
