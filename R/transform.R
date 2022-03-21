@@ -62,7 +62,7 @@ skd_filter <- function(df) {
 
 #' Adds additional SKD categorisation with retail subgroups
 #'
-#' This is the standard 2/digit classifivation with three additional subgroups
+#' This is the standard 2/digit classification with three additional subgroups
 #' for the retail sale sector
 #'
 #' @param df data frame output of import functions \link[ddvR]{skd_2}
@@ -75,7 +75,6 @@ skd_retail <- function(df) {
     dplyr::left_join(retail_codes, by = "SKD_5") %>%
     dplyr::mutate(SKD_2PLUS = ifelse(is.na(SKD_2PLUS), SKD_2, SKD_2PLUS))
 }
-
 
 
 #' Run whole transform sequence

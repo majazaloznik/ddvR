@@ -13,6 +13,6 @@ skd_retail(df)
 data frame with 1 more column than before
 }
 \description{
-This is the standard 2/digit classifivation with three additional subgroups
+This is the standard 2/digit classification with three additional subgroups
 for the retail sale sector
 }

@@ -49,6 +49,22 @@ fix_types <- function(df) {
 }
 
 
+#' Remove duplicate rows
+#'
+#' This happened with one of the original bulk import files, had a whole week
+#' duplicated, hence this function.
+#'
+#' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
+#'
+#' @return data frame with same number of columns as input and possibly fewer rows
+#' @export
+#'
+remove_duplicates <- function(df) {
+  df %>%
+    dplyr::distinct(.keep_all= TRUE)
+}
+
+
 #' Remove illegal values for STOPNJA
 #'
 #' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
@@ -57,7 +73,8 @@ fix_types <- function(df) {
 #' @export
 remove_xrates <- function(df) {
   df %>%
-    dplyr::filter(STOPNJA %in% ratez)
+    dplyr::filter(STOPNJA %in% ratez) %>%
+    dplyr::mutate(STOPNJA = ifelse(STOPNJA == "9,5%", "9,50%", STOPNJA))
 }
 
 
@@ -119,6 +136,21 @@ remove_na_rows <- function(df) {
     df[., ]
 }
 
+#' Sum up rows with duplicate key
+#'
+#' Add the values for the columns where recoding means they have the same
+#' unique key.
+#'
+#' @param df data frame after recoding of rates and SKD
+#'
+#' @return data frame with same number of columns as input and possibly fewer rows
+#' @export
+sum_duplicates <- function(df) {
+  df  %>%
+    dplyr::group_by(DATUM, STOPNJA, SKD_5) %>%
+    dplyr::summarise_all(sum)
+}
+
 
 #' Run whole import sequence
 #'
@@ -133,9 +165,11 @@ ddv_import <- function(input){
     read_file() %>%
     {if(!check_columns(.)) stop("Column check failed") else .} %>%
     fix_types() %>%
+    remove_duplicates() %>%
     remove_xrates() %>%
     recode_skd() %>%
     remove_xskd() %>%
-    remove_na_rows()
+    remove_na_rows() %>%
+    sum_duplicates()
 }
 

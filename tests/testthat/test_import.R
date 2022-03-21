@@ -21,10 +21,19 @@ test_that("column types have been fixed correctly", {
   expect_type(df_types$ZNESEK_DAVKA, "double")
 })
 
+test_that("column types have been fixed correctly", {
+  df_no_dups <- remove_duplicates(fix_types(read_file(
+    test_path("testdata", "test_import_07.csv"))))
+  expect_equal(nrow(df_no_dups), 5)
+})
+
 test_that("only legal values are in coded columns", {
  clean_rates <- remove_xrates(fix_types(read_file(
    test_path("testdata", "test_import_03.csv"))))
  expect_equal(nrow(clean_rates), 16)
+ clean_rates <- remove_xrates(fix_types(read_file(
+   test_path("testdata", "test_import_08.csv"))))
+ expect_equal(length(unique(clean_rates$STOPNJA)), 1)
  recoded <- recode_skd(fix_types(read_file(
    test_path("testdata", "test_import_04.csv"))))
  expect_equal(unique(recoded$SKD_5), c("01.210", "49.410", "01.610",
@@ -39,6 +48,12 @@ test_that("only legal values are in coded columns", {
    test_path("testdata", "test_import_03.csv")))))))
  expect_equal(nrow(clean_df), 8)
  })
+
+test_that("post recode aggregation is done OK", {
+  clean_df <- remove_na_rows(remove_xskd(recode_skd(remove_xrates(remove_duplicates(fix_types(read_file(
+    test_path("testdata", "test_import_09.csv"))))))))
+  expect_equal(nrow(sum_duplicates(clean_df)), 2)
+})
 
 test_that("import workflow works", {
   expect_equal(nrow(ddv_import(test_path("testdata", "test_import_01.csv"))), 19)
