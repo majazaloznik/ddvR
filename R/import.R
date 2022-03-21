@@ -2,7 +2,7 @@
 #'
 #' Reads csv input file using read.csv2
 #'
-#' @param input absolute or relative path to .csv file
+#' @param input absolute or relative path the to .csv file
 #'
 #' @return data frame.
 #'@export
@@ -19,7 +19,7 @@ read_file <- function(input) {
 #' @return logical
 #' @export
 check_columns <- function(df) {
-  all.equal(colnames(df), colz)
+isTRUE(all.equal(colnames(df), colz))
 }
 
 
@@ -118,3 +118,24 @@ remove_na_rows <- function(df) {
     # `!` %>% # if you want to see incomplete cases
     df[., ]
 }
+
+
+#' Run whole import sequence
+#'
+#' Just strings together all the import functions in the correct order.
+#'
+#' @param input absolute or relative path to the .csv file
+#'
+#' @return a df with 7 columns
+#' @export
+ddv_import <- function(input){
+  input %>%
+    read_file() %>%
+    {if(!check_columns(.)) stop("Column check failed") else .} %>%
+    fix_types() %>%
+    remove_xrates() %>%
+    recode_skd() %>%
+    remove_xskd() %>%
+    remove_na_rows()
+}
+

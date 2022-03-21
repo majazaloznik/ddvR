@@ -12,7 +12,8 @@ date_split <- function(df) {
     dplyr::mutate(DAN = as.numeric(format(DATUM, "%d")),
            MESEC = as.numeric(format(DATUM, "%m")),
            LETO = as.numeric(format(DATUM, "%Y")),
-           TEDEN =  lubridate::isoweek(DATUM))
+           TEDEN =  lubridate::isoweek(DATUM)) %>%
+    dplyr::relocate(DAN, MESEC, LETO, TEDEN, .after= DATUM)
 }
 
 
@@ -71,6 +72,24 @@ skd_filter <- function(df) {
 
 skd_retail <- function(df) {
   df %>%
-    dplyr::left_join(retail_codes) %>%
+    dplyr::left_join(retail_codes, by = "SKD_5") %>%
     dplyr::mutate(SKD_2PLUS = ifelse(is.na(SKD_2PLUS), SKD_2, SKD_2PLUS))
+}
+
+
+
+#' Run whole transform sequence
+#'
+#' @param df data frame outpuit from \link[ddvR]{ddv_import}
+#'
+#' @return df with 15 columns
+#' @export
+#'
+ddv_transform <- function(df){
+  df %>%
+    date_split() %>%
+    skd_2() %>%
+    skd_alpha() %>%
+    skd_retail() %>%
+    skd_filter()
 }

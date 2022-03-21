@@ -32,5 +32,10 @@ test_that("check skd recoding works OK", {
 })
 
 
+test_that("transform workflow works", {
+  expect_equal(ncol(ddv_transform(
+    ddv_import(test_path("testdata", "test_import_01.csv")))), 15)
+} )
+
 
 

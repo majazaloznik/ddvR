@@ -3,6 +3,8 @@
 export("%>%")
 export(check_columns)
 export(date_split)
+export(ddv_import)
+export(ddv_transform)
 export(fix_types)
 export(read_file)
 export(recode_skd)

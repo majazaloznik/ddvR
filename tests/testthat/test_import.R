@@ -4,8 +4,8 @@ test_that("imported df conforms to requirements", {
     test_path("testdata", "test_import_01.csv"))), TRUE)
   expect_equal(check_columns(read_file(
     test_path("testdata", "test_import_01.csv"))), TRUE)
-  expect_type(check_columns(read_file(
-    test_path("testdata", "test_import_02.csv"))), "character")
+  expect_false(check_columns(read_file(
+    test_path("testdata", "test_import_02.csv"))))
 })
 
 test_that("column types have been fixed correctly", {
@@ -39,4 +39,10 @@ test_that("only legal values are in coded columns", {
    test_path("testdata", "test_import_03.csv")))))))
  expect_equal(nrow(clean_df), 8)
  })
+
+test_that("import workflow works", {
+  expect_equal(nrow(ddv_import(test_path("testdata", "test_import_01.csv"))), 19)
+  expect_equal(nrow(ddv_import(test_path("testdata", "test_import_03.csv"))), 8)
+  expect_error(nrow(ddv_import(test_path("testdata", "test_import_02.csv"))))
+} )
 

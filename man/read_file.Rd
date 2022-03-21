@@ -7,7 +7,7 @@
 read_file(input)
 }
 \arguments{
-\item{input}{absolute or relative path to .csv file}
+\item{input}{absolute or relative path the to .csv file}
 }
 \value{
 data frame.
