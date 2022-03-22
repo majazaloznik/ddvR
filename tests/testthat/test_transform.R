@@ -31,6 +31,10 @@ test_that("check skd recoding works OK", {
   expect_equal(length(unique(df$SKD_2PLUS)), 5)
 })
 
+test_that("check skd recoding works OK", {
+  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_10.csv")))$SKD_2, "64")
+  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_01.csv")))$SKD_2[7], "64")
+})
 
 test_that("transform workflow works", {
   expect_equal(ncol(ddv_transform(

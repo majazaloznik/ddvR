@@ -148,7 +148,8 @@ remove_na_rows <- function(df) {
 sum_duplicates <- function(df) {
   df  %>%
     dplyr::group_by(DATUM, STOPNJA, SKD_5) %>%
-    dplyr::summarise_all(sum)
+    dplyr::summarise_all(sum) %>%
+    dplyr:: ungroup()
 }
 
 

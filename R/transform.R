@@ -27,6 +27,7 @@ date_split <- function(df) {
 #' @export
 skd_2 <- function(df) {
   df %>%
+    dplyr::rowwise() %>%
     dplyr::mutate(SKD_2 = strsplit(SKD_5, "\\.")[[1]][1])
 }
 
