@@ -16,7 +16,7 @@ test_that("column types have been fixed correctly", {
   expect_type(df_types$STOPNJA, "character")
   expect_type(df_types$SKD_5 , "character")
   expect_type(df_types$OSNOVA_DAVKA, "double")
-  expect_type(df_types$STEVILO, "double")
+  expect_type(df_types$STEVILO, "integer")
   expect_type(df_types$ZNESEK, "double")
   expect_type(df_types$ZNESEK_DAVKA, "double")
 })

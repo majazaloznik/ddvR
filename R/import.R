@@ -40,7 +40,7 @@ fix_types <- function(df) {
     dplyr::mutate(DATUM = as.Date(DATUM, format = "%d.%m.%Y"),
                   OSNOVA_DAVKA  = suppressWarnings(
                     as.numeric(gsub(",", ".", OSNOVA_DAVKA))),
-                  STEVILO = suppressWarnings(as.numeric(STEVILO)),
+                  STEVILO = suppressWarnings(as.integer(STEVILO)),
                   ZNESEK = suppressWarnings(as.numeric(gsub(",", ".", ZNESEK))),
                   ZNESEK_DAVKA = suppressWarnings(as.numeric(gsub(",", ".",ZNESEK_DAVKA))),
                   SKD_5 = ST_DEJAVNOSTI) %>%
