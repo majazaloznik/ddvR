@@ -17,7 +17,7 @@ write_to_db <- function(df, db = "ddvtest") {
   on.exit(dbDisconnect(con))
   try(RPostgres::dbWriteTable(con, "davcni_racuni", df, row.names=FALSE, append=TRUE))
 
-  query <- "SELECT * from davcni_racuni"
+  query <- "SELECT count(*) from davcni_racuni"
 
   return(dbGetQuery(con, query))
 }
