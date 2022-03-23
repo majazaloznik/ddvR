@@ -47,6 +47,9 @@ test_that("only legal values are in coded columns", {
  clean_df <- remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
    test_path("testdata", "test_import_03.csv")))))))
  expect_equal(nrow(clean_df), 8)
+ clean_df <- remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
+   test_path("testdata", "test_import_11.csv")))))))
+ expect_equal(nrow(clean_df), 4)
  })
 
 test_that("post recode aggregation is done OK", {
