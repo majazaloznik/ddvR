@@ -79,6 +79,8 @@ skd_retail <- function(df) {
 
 
 #' Run whole transform sequence
+#' Run thourgh all the transformation steps and at the end also change the
+#' colum names to lowercase, because that's how postgres likes them.
 #'
 #' @param df data frame outpuit from \link[ddvR]{ddv_import}
 #'
@@ -91,5 +93,7 @@ ddv_transform <- function(df){
     skd_2() %>%
     skd_alpha() %>%
     skd_retail() %>%
-    skd_filter()
+    skd_filter() -> df
+    names(df) <- tolower(names(df))
+    df
 }

@@ -32,8 +32,8 @@ test_that("check skd recoding works OK", {
 })
 
 test_that("check skd recoding works OK", {
-  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_10.csv")))$SKD_2, "64")
-  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_01.csv")))$SKD_2[7], "64")
+  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_10.csv")))$skd_2, "64")
+  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_01.csv")))$skd_2[7], "64")
 })
 
 test_that("transform workflow works", {

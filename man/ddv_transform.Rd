@@ -2,7 +2,9 @@
 % Please edit documentation in R/transform.R
 \name{ddv_transform}
 \alias{ddv_transform}
-\title{Run whole transform sequence}
+\title{Run whole transform sequence
+Run thourgh all the transformation steps and at the end also change the
+colum names to lowercase, because that's how postgres likes them.}
 \usage{
 ddv_transform(df)
 }
@@ -14,4 +16,6 @@ df with 15 columns
 }
 \description{
 Run whole transform sequence
+Run thourgh all the transformation steps and at the end also change the
+colum names to lowercase, because that's how postgres likes them.
 }
