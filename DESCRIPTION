@@ -1,7 +1,7 @@
 Package: ddvR
 Type: Package
 Title: Parsing Weekly DDV (VAT) Data from FURS 
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: person("Maja", "Zaloznik", email = "maja.zaloznik@gmail.com", 
   role = c("aut", "cre"))
 Maintainer: majazaloznik <maja.zaloznik@gmail.com>

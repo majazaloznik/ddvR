@@ -12,8 +12,9 @@ date_split <- function(df) {
     dplyr::mutate(DAN = as.numeric(format(DATUM, "%d")),
            MESEC = as.numeric(format(DATUM, "%m")),
            LETO = as.numeric(format(DATUM, "%Y")),
-           TEDEN =  lubridate::isoweek(DATUM)) %>%
-    dplyr::relocate(DAN, MESEC, LETO, TEDEN, .after= DATUM)
+           TEDEN =  lubridate::isoweek(DATUM),
+           TEDEN_US = format(DATUM, "%U")) %>%
+    dplyr::relocate(DAN, MESEC, LETO, TEDEN, TEDEN_US,  .after= DATUM)
 }
 
 
