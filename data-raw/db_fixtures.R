@@ -1,5 +1,5 @@
 library(RPostgres)
-library(dittodb)
+suppressWarnings(library(dittodb))
 df <- ddv_transform(ddv_import(test_path("testdata", "test_import_01.csv")))
 
 start_db_capturing()

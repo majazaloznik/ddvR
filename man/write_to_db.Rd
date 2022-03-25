@@ -4,17 +4,21 @@
 \alias{write_to_db}
 \title{Write data frame to postgres}
 \usage{
-write_to_db(df, db = "ddvtest")
+write_to_db(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_DDVR_PSW"))
 }
 \arguments{
 \item{df}{dataframe output of \link[ddvR]{ddv_transform}}
 
 \item{db}{name of database on the local server with the davcni_racuni table}
+
+\item{usr}{user for db access}
+
+\item{psw}{password for db access}
 }
 \value{
 data frame with number of rows in database table.
 using mock db for testing.
 }
 \description{
-Write data frame to postgres
+This code only works with relevant credentials.
 }

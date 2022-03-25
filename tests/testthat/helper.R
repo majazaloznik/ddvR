@@ -1,1 +1,1 @@
-library(dittodb)
+suppressWarnings(library(dittodb))

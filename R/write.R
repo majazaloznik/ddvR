@@ -1,19 +1,23 @@
 #' Write data frame to postgres
 #'
+#' This code only works with relevant credentials.
+#'
 #' @param df dataframe output of \link[ddvR]{ddv_transform}
 #' @param db name of database on the local server with the davcni_racuni table
-#'
+#' @param usr user for db access
+#' @param psw password for db access
+
 #' @return data frame with number of rows in database table.
 #' using mock db for testing.
 #'
 #' @export
-write_to_db <- function(df, db = "ddvtest") {
+write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_DDVR_PSW")) {
   con <- RPostgres::dbConnect(RPostgres::Postgres(),
                               dbname = db,
                               host = "localhost",
                               port = 5432,
-                              user = "ddvr",
-                              password = Sys.getenv("PG_DDVR_PSW"))
+                              user = usr,
+                              password = psw)
   on.exit(dbDisconnect(con))
   try(RPostgres::dbWriteTable(con, "davcni_racuni", df, row.names=FALSE, append=TRUE))
 
