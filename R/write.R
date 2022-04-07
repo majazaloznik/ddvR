@@ -41,11 +41,11 @@ write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_D
 #'
 email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
   text_msg <- gmailr::gm_mime() %>%
-    gmailr::gm_to(recipients) %>%
+    gmailr::gm_to(recipient) %>%
     gmailr::gm_from("maja.zaloznik@gmail.com") %>%
     gmailr::gm_text_body(paste("This is an automated email. \n The file ", input,
-                       "has been processed by the ddvR automated script, and the log",
-                       "is attached to this email.")) %>%
+                               "has been processed by the ddvR automated script, and the log",
+                               "is attached to this email.")) %>%
     gmailr::gm_attach_file(log)
 
   gmailr::gm_send_message(text_msg)
