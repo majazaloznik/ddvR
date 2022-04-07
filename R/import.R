@@ -104,7 +104,7 @@ remove_xrates <- function(df) {
 #' @return data frame with same dimensions as input
 #' @export
 recode_skd <- function(df) {
-  rlog::log_info("Checking for illegal SKD codes.")
+  rlog::log_info("Checking for illegal SKD codes and recoding.")
   df %>%
     dplyr::rowwise() %>%
     dplyr::mutate(SKD_5 =
@@ -188,14 +188,22 @@ sum_duplicates <- function(df) {
 #' @export
 ddv_import <- function(input){
   input %>%
-    read_file() %>%
-    {if(!check_columns(.)) stop("Column check failed") else .} %>%
-    fix_types() %>%
-    remove_duplicates() %>%
-    remove_xrates() %>%
-    recode_skd() %>%
-    remove_xskd() %>%
-    remove_na_rows() %>%
+    read_file() -> x
+  x %>%
+    {if(!check_columns(.)) stop("Column check failed") else .} -> x
+  x %>%
+    fix_types()-> x
+  x %>%
+    remove_duplicates() -> x
+  x %>%
+    remove_xrates() -> x
+  x %>%
+    recode_skd()-> x
+  x %>%
+    remove_xskd() -> x
+  x %>%
+    remove_na_rows() -> x
+  x %>%
     sum_duplicates() -> df
   rlog::log_info(paste0("Completed import."))
   return(df)

@@ -93,10 +93,14 @@ skd_retail <- function(df) {
 #'
 ddv_transform <- function(df){
   df %>%
-    date_split() %>%
-    skd_2() %>%
-    skd_alpha() %>%
-    skd_retail() %>%
+    date_split() -> x
+  x %>%
+    skd_2() -> x
+  x %>%
+    skd_alpha() -> x
+  x %>%
+    skd_retail()-> x
+  x %>%
     skd_filter() -> df
     names(df) <- tolower(names(df))
     rlog::log_info(paste0("Completed data transformations."))
