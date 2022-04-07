@@ -103,6 +103,6 @@ ddv_transform <- function(df){
   x %>%
     skd_filter() -> df
     names(df) <- tolower(names(df))
-    rlog::log_info(paste0("Completed data transformations."))
+    rlog::log_info(paste0("Completed data transformations.  \n"))
     df
 }

@@ -205,7 +205,7 @@ ddv_import <- function(input){
     remove_na_rows() -> x
   x %>%
     sum_duplicates() -> df
-  rlog::log_info(paste0("Completed import."))
+  rlog::log_info(paste0("Completed import. \n"))
   return(df)
 }
 

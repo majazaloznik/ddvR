@@ -25,7 +25,28 @@ write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_D
   query <- "SELECT count(*) from davcni_racuni"
 
   n <- return(dbGetQuery(con, query))[1,1]
-  rlog::log_info(paste0(nrow(df), "new rows added to the table for a total of ", n, "rows in total." ))
-
+  rlog::log_info(paste0(nrow(df), "new rows added to the table for a total of ", n, "rows in total.  \n" ))
 }
 
+
+
+#' Send email with log
+#'
+#' Convenience wrapper for sending the log
+#' @param log path to log file
+#' @param recipient I think single email is all that's allowed. Haven't tried more
+#'
+#' @return nothing, side effect is the email being sent.
+#' @export
+#'
+email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
+  text_msg <- gmailr::gm_mime() %>%
+    gmailr::gm_to(recipients) %>%
+    gmailr::gm_from("maja.zaloznik@gmail.com") %>%
+    gmailr::gm_text_body(paste("This is an automated email. \n The file ", input,
+                       "has been processed by the ddvR automated script, and the log",
+                       "is attached to this email.")) %>%
+    gmailr::gm_attach_file(log)
+
+  gmailr::gm_send_message(text_msg)
+}
