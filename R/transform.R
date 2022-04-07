@@ -8,6 +8,7 @@
 #' @return data frame with 4 more columns than before
 #' @export
 date_split <- function(df) {
+  rlog::log_info("Adding date and week columns.")
   df %>%
     dplyr::mutate(DAN = as.numeric(format(DATUM, "%d")),
            MESEC = as.numeric(format(DATUM, "%m")),
@@ -26,7 +27,9 @@ date_split <- function(df) {
 #'
 #' @return data frame with 1 more column than before
 #' @export
+#'
 skd_2 <- function(df) {
+  rlog::log_info("Adding SKD code columns and filter.")
   df %>%
     dplyr::rowwise() %>%
     dplyr::mutate(SKD_2 = strsplit(SKD_5, "\\.")[[1]][1])
@@ -96,5 +99,6 @@ ddv_transform <- function(df){
     skd_retail() %>%
     skd_filter() -> df
     names(df) <- tolower(names(df))
+    rlog::log_info(paste0("Completed data transformations."))
     df
 }

@@ -12,6 +12,7 @@
 #'
 #' @export
 write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_DDVR_PSW")) {
+  rlog::log_info(paste0("Writing to the ", db, " database."))
   con <- RPostgres::dbConnect(RPostgres::Postgres(),
                               dbname = db,
                               host = "localhost",
@@ -23,6 +24,8 @@ write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_D
 
   query <- "SELECT count(*) from davcni_racuni"
 
-  return(dbGetQuery(con, query))
+  n <- return(dbGetQuery(con, query))
+  rlog::log_info(paste0(nrow(df), "new rows added to the table for a total of ", n, "rows in total." ))
+
 }
 
