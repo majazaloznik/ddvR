@@ -24,7 +24,7 @@ write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_D
 
   query <- "SELECT count(*) from davcni_racuni"
 
-  n <- return(dbGetQuery(con, query))
+  n <- return(dbGetQuery(con, query))[1,1]
   rlog::log_info(paste0(nrow(df), "new rows added to the table for a total of ", n, "rows in total." ))
 
 }
