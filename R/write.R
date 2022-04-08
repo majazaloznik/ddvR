@@ -24,9 +24,11 @@ write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_D
 
   query <- "SELECT count(*) from davcni_racuni"
 
-  n <- dbGetQuery(con, query)[1,1]
-  rlog::log_info(paste0(nrow(df), "new rows added to the table for a total of ", n, "rows in total.  \n" ))
-}
+  out <- dbGetQuery(con, query)
+  n <- out[1,1]
+  rlog::log_info(paste0(nrow(df), " new rows added to the table for a total of ", n, " rows in total.  \n                        ##################################################################" ))
+  invisible(out)
+  }
 
 
 
@@ -42,6 +44,7 @@ write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_D
 email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
   text_msg <- gmailr::gm_mime() %>%
     gmailr::gm_to(recipient) %>%
+    gmailr::gm_subject("FURS DDV (VAT) data import") %>%
     gmailr::gm_from("maja.zaloznik@gmail.com") %>%
     gmailr::gm_text_body(paste("This is an automated email. \n The file ", input,
                                "has been processed by the ddvR automated script, and the log",

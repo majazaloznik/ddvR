@@ -7,7 +7,7 @@
 #' @return data frame.
 #'@export
 read_file <- function(input) {
-  rlog::log_info("Reading the csv file.")
+  rlog::log_info(paste("Reading the csv file", input))
   df <- utils::read.csv2(input)
   df
 }
