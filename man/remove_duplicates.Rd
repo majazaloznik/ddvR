@@ -13,6 +13,6 @@ remove_duplicates(df)
 data frame with same number of columns as input and possibly fewer rows
 }
 \description{
-This happened with one of the original bulk import files, had a whole week
+This happened with some of the original bulk import files, which are completely
 duplicated, hence this function.
 }
