@@ -55,7 +55,7 @@ fix_types <- function(df) {
 
 #' Remove duplicate rows
 #'
-#' This happened with one of the original bulk import files, had a whole week
+#' This happened with some of the original bulk import files, which are completely
 #' duplicated, hence this function.
 #'
 #' @param df data frame output of \link[ddvR]{fix_types} or data frame output of \link[ddvR]{remove_na_rows}
