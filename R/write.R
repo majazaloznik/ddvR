@@ -26,8 +26,8 @@ write_to_db <- function(df, db = "ddvtest", usr = "ddvr", psw = Sys.getenv("PG_D
 
   out <- dbGetQuery(con, query)
   n <- out[1,1]
-  rlog::log_info(paste0(nrow(df), " new rows added to the table for a total of ", n, " rows in total.  \n                        ##################################################################" ))
-  rlog::log_info(paste0("This week's total revenues are ", ballpark_last_week(df), " % of the previous week's, just to give you a ballpark idea."))
+  rlog::log_info(paste0(nrow(df), " new rows added to the table for a total of ", n, " rows in total." ))
+  rlog::log_info(paste0("This week's total revenues are ", ballpark_last_week(df), " % of the previous week's, just to give you a ballpark idea. \n                        ##################################################################"))
   invisible(out)
   }
 
