@@ -46,7 +46,7 @@ test_that("only legal values are in coded columns", {
  expect_equal(nrow(clean_codes), 16)
  clean_df <- remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
    test_path("testdata", "test_import_03.csv")))))))
- expect_equal(nrow(clean_df), 8)
+ expect_equal(nrow(clean_df), 10)
  clean_df <- remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
    test_path("testdata", "test_import_11.csv")))))))
  expect_equal(nrow(clean_df), 4)
@@ -60,7 +60,13 @@ test_that("post recode aggregation is done OK", {
 
 test_that("import workflow works", {
   expect_equal(nrow(ddv_import(test_path("testdata", "test_import_01.csv"))), 19)
-  expect_equal(nrow(ddv_import(test_path("testdata", "test_import_03.csv"))), 8)
+  expect_equal(nrow(ddv_import(test_path("testdata", "test_import_03.csv"))), 10)
   expect_error(nrow(ddv_import(test_path("testdata", "test_import_02.csv"))))
 } )
 
+
+test_that("numeric columns don't loose decimal points", {
+  df_types <- fix_types(read_file(
+    test_path("testdata", "test_import_12.csv")))
+  expect_equal(df_types$OSNOVA_DAVKA[1] , 36.84)
+})

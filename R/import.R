@@ -38,17 +38,15 @@ check_columns <- function(df) {
 #' @return data frame with same dimensions as input
 #' @export
 fix_types <- function(df) {
+  varnames <- c( "OSNOVA_DAVKA","ZNESEK", "ZNESEK_DAVKA")
   rlog::log_info("Fixing column types.")
   df   %>%
     dplyr::mutate(DATUM = as.Date(DATUM, format = "%d.%m.%Y"),
-                  OSNOVA_DAVKA  = suppressWarnings(
-                    as.numeric(gsub(",", "\\.", gsub("\\.", "", OSNOVA_DAVKA)))),
                   STEVILO = suppressWarnings(as.integer(STEVILO)),
-                  ZNESEK = suppressWarnings(
-                    as.numeric(gsub(",", "\\.", gsub("\\.", "", ZNESEK)))),
-                  ZNESEK_DAVKA = suppressWarnings(
-                    as.numeric(gsub(",", "\\.", gsub("\\.", "", ZNESEK_DAVKA)))),
                   SKD_5 = ST_DEJAVNOSTI) %>%
+    dplyr::mutate(dplyr::across(where(is.character) & dplyr::matches(varnames),
+                                ~suppressWarnings(
+                                  as.numeric(gsub(",", "\\.", gsub("\\.", "", OSNOVA_DAVKA)))))) %>%
     dplyr::select(-ST_DEJAVNOSTI)
 }
 
