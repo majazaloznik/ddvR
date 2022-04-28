@@ -19,7 +19,8 @@ Imports:
     lubridate (>= 1.8.0),
     RPostgres (>= 1.4.1),
     rlog (>= 0.1.0),
-    gmailr (>= 1.0.1)
+    gmailr (>= 1.0.1),
+    dbplyr (>= 2.1.1)
 Suggests: 
     covr,
     dittodb,
