@@ -31,14 +31,24 @@ test_that("check skd recoding works OK", {
   expect_equal(length(unique(df$SKD_2PLUS)), 5)
 })
 
+test_that("check ely weeks work ok", {
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN[1], "2019-W01")
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN[2], "2020-W01")
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN_ELY[1], "2018-W01")
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN_ELY[2], "2019-W01")
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN[3], "2020-W01")
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN[4], "2020-W53")
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN_ELY[3], "2019-W01")
+  expect_equal(ely_weeks(ddv_import(test_path("testdata", "test_import_13.csv")))$ISO_TEDEN_ELY[4], "2020-W01")
+})
+
 test_that("check skd recoding works OK", {
   expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_10.csv")))$skd_2, "64")
-  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_01.csv")))$skd_2[7], "64")
-})
+  expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_01.csv")))$skd_2[7], "64")})
 
 test_that("transform workflow works", {
   expect_equal(ncol(ddv_transform(
-    ddv_import(test_path("testdata", "test_import_01.csv")))), 16)
+    ddv_import(test_path("testdata", "test_import_01.csv")))), 18)
 } )
 
 

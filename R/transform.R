@@ -81,6 +81,27 @@ skd_retail <- function(df) {
     dplyr::mutate(SKD_2PLUS = ifelse(is.na(SKD_2PLUS), SKD_2, SKD_2PLUS))
 }
 
+#' Adds column with iso year and week and ELY
+#'
+#' Adds the ISO year and week in YYYY-WxX format, because teden and leto are
+#' not enough tu unambiguously determine the correct iso week.
+#' Then also adds the "Equivalent last year" or ELY week, which is the one exactly
+#' 52 weeks ago. WHich is the simplest way to do y-o-y stuff I believe.
+#'
+#' @param df data frame output of import functions
+#'
+#' @return data frame with 2 more columns than before
+#' @export
+
+ely_weeks <- function(df) {
+  df %>%
+    dplyr::mutate(ISO_TEDEN = paste0(lubridate::isoyear(DATUM), "-W",
+                              formatC(lubridate::isoweek(DATUM), format = "f",
+                                      digits = 0, width = 2, flag = "0")),
+           ISO_TEDEN_ELY = paste0(lubridate::isoyear(DATUM - 364), "-W",
+                                  formatC(lubridate::isoweek(DATUM - 364), format = "f",
+                                          digits = 0, width = 2, flag = "0")))
+}
 
 #' Run whole transform sequence
 #' Run thourgh all the transformation steps and at the end also change the
@@ -100,6 +121,8 @@ ddv_transform <- function(df){
     skd_alpha() -> x
   x %>%
     skd_retail()-> x
+  x %>%
+    ely_weeks() -> x
   x %>%
     skd_filter() -> df
     names(df) <- tolower(names(df))
