@@ -55,6 +55,17 @@ test_that("check skd recoding works OK", {
   expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_10.csv")))$skd_2, "64")
   expect_equal(ddv_transform(ddv_import(test_path("testdata", "test_import_01.csv")))$skd_2[7], "64")})
 
+test_that("check skd NAs are now zero", {
+  df <- skd_zero(skd_filter(skd_retail(skd_alpha(skd_2(date_split(ddv_import(
+    test_path("testdata", "test_import_07.csv"))))))))
+  expect_equal(df$SKD_5[2], "0")
+  expect_equal(df$SKD_2[2], "0")
+  expect_equal(df$SKD_ALPHA[2], "0")
+  expect_equal(df$SKD_2PLUS[2], "0")
+  })
+
+
+
 test_that("transform workflow works", {
   expect_equal(ncol(ddv_transform(
     ddv_import(test_path("testdata", "test_import_01.csv")))), 20)

@@ -32,7 +32,8 @@ date_split <- function(df) {
                   LETO_MESEC_ELY = paste0(LETO - 1, "-",
                                           formatC(MESEC, format = "f",
                                                   digits = 0, width = 2, flag = "0"))) %>%
-    dplyr::relocate(DAN, MESEC, LETO, TEDEN, TEDEN_US,ISO_TEDEN, ISO_TEDEN_ELY,  .after= DATUM)
+    dplyr::relocate(DAN, MESEC, LETO, TEDEN, TEDEN_US,ISO_TEDEN, ISO_TEDEN_ELY,
+                    LETO_MESEC, LETO_MESEC_ELY, .after= DATUM)
 }
 
 
@@ -98,6 +99,11 @@ skd_retail <- function(df) {
     dplyr::mutate(SKD_2PLUS = ifelse(is.na(SKD_2PLUS), SKD_2, SKD_2PLUS))
 }
 
+skd_zero <- function(df) {
+  df %>%
+    dplyr::mutate(SKD_5 = dplyr::na_if(SKD_5, "")) %>%
+    tidyr::replace_na(list(SKD_2 = 0, SKD_2PLUS = 0, SKD_5 = 0, SKD_ALPHA = 0))
+}
 
 #' Run whole transform sequence
 #' Run thourgh all the transformation steps and at the end also change the
@@ -118,7 +124,9 @@ ddv_transform <- function(df){
   x %>%
     skd_retail()-> x
   x %>%
-    skd_filter() -> df
+    skd_filter() -> x
+  x %>%
+    skd_zero() -> df
     names(df) <- tolower(names(df))
     rlog::log_info(paste0("Completed data transformations.  \n"))
     df

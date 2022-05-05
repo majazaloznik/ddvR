@@ -20,7 +20,8 @@ Imports:
     RPostgres (>= 1.4.1),
     rlog (>= 0.1.0),
     gmailr (>= 1.0.1),
-    dbplyr (>= 2.1.1)
+    dbplyr (>= 2.1.1),
+    tidyr (>= 1.1.4)
 Suggests: 
     covr,
     dittodb,
