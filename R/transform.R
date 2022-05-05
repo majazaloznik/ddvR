@@ -1,11 +1,16 @@
 #' Add columns that split date into constituent parts
 #'
 #' Splits the date into day, month and year columns as well as the ISO
-#' week and adds all four columns
+#' week and adds all four columns. Also add  ISO year and week in YYYY-WxX format,
+#' because teden and leto are not enough tu unambiguously determine the correct iso week.
+#' Then also adds the "Equivalent last year" or ELY week, which is the one exactly
+#' 52 weeks ago. WHich is the simplest way to do y-o-y stuff I believe.
+#' For convenienve adds a column with the year-month in YYYY-MM format and the
+#' "Equivalent last year" for easy y-o-y calculations
 #'
 #' @param df data frame output of import functions (add link)
 #'
-#' @return data frame with 4 more columns than before
+#' @return data frame with 8 more columns than before
 #' @export
 date_split <- function(df) {
   rlog::log_info("Adding date and week columns.")
@@ -15,7 +20,19 @@ date_split <- function(df) {
            LETO = as.numeric(format(DATUM, "%Y")),
            TEDEN =  lubridate::isoweek(DATUM),
            TEDEN_US = format(DATUM, "%U")) %>%
-    dplyr::relocate(DAN, MESEC, LETO, TEDEN, TEDEN_US,  .after= DATUM)
+    dplyr::mutate(ISO_TEDEN = paste0(lubridate::isoyear(DATUM), "-W",
+                                     formatC(lubridate::isoweek(DATUM), format = "f",
+                                             digits = 0, width = 2, flag = "0")),
+                  ISO_TEDEN_ELY = paste0(lubridate::isoyear(DATUM - 364), "-W",
+                                         formatC(lubridate::isoweek(DATUM - 364), format = "f",
+                                                 digits = 0, width = 2, flag = "0"))) %>%
+    dplyr::mutate(LETO_MESEC = paste0(LETO, "-",
+                                      formatC(MESEC, format = "f",
+                                              digits = 0, width = 2, flag = "0")),
+                  LETO_MESEC_ELY = paste0(LETO - 1, "-",
+                                          formatC(MESEC, format = "f",
+                                                  digits = 0, width = 2, flag = "0"))) %>%
+    dplyr::relocate(DAN, MESEC, LETO, TEDEN, TEDEN_US,ISO_TEDEN, ISO_TEDEN_ELY,  .after= DATUM)
 }
 
 
@@ -81,27 +98,6 @@ skd_retail <- function(df) {
     dplyr::mutate(SKD_2PLUS = ifelse(is.na(SKD_2PLUS), SKD_2, SKD_2PLUS))
 }
 
-#' Adds column with iso year and week and ELY
-#'
-#' Adds the ISO year and week in YYYY-WxX format, because teden and leto are
-#' not enough tu unambiguously determine the correct iso week.
-#' Then also adds the "Equivalent last year" or ELY week, which is the one exactly
-#' 52 weeks ago. WHich is the simplest way to do y-o-y stuff I believe.
-#'
-#' @param df data frame output of import functions
-#'
-#' @return data frame with 2 more columns than before
-#' @export
-
-ely_weeks <- function(df) {
-  df %>%
-    dplyr::mutate(ISO_TEDEN = paste0(lubridate::isoyear(DATUM), "-W",
-                              formatC(lubridate::isoweek(DATUM), format = "f",
-                                      digits = 0, width = 2, flag = "0")),
-           ISO_TEDEN_ELY = paste0(lubridate::isoyear(DATUM - 364), "-W",
-                                  formatC(lubridate::isoweek(DATUM - 364), format = "f",
-                                          digits = 0, width = 2, flag = "0")))
-}
 
 #' Run whole transform sequence
 #' Run thourgh all the transformation steps and at the end also change the
@@ -121,8 +117,6 @@ ddv_transform <- function(df){
     skd_alpha() -> x
   x %>%
     skd_retail()-> x
-  x %>%
-    ely_weeks() -> x
   x %>%
     skd_filter() -> df
     names(df) <- tolower(names(df))
