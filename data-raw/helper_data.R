@@ -3,7 +3,7 @@ colz <- c("DATUM", "STOPNJA", "ST_DEJAVNOSTI", "OSNOVA_DAVKA",
           "STEVILO", "ZNESEK", "ZNESEK_DAVKA")
 
 # the only legal tax rates
-ratez <- c("22%", "9,5%",  "9,50%",  "5%", "ostalo")
+ratez <- c("22%", "9,5%",  "9,50%",  "5%", "ostalo", "ostalo ")
 
 # old skd codes that we know hot to recode
 skd_recode_lookup <- list("01.131" = "01.210",

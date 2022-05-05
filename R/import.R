@@ -81,7 +81,8 @@ remove_xrates <- function(df) {
   nrow1 <- nrow(df)
   df %>%
     dplyr::filter(STOPNJA %in% ratez) %>%
-    dplyr::mutate(STOPNJA = ifelse(STOPNJA == "9,5%", "9,50%", STOPNJA)) -> df
+    dplyr::mutate(STOPNJA = ifelse(STOPNJA == "9,5%", "9,50%", STOPNJA),
+                  STOPNJA = ifelse(STOPNJA == "ostalo ", "ostalo", STOPNJA)) -> df
   nrow2 <- nrow(df)
   rlog::log_info(paste0("Removed ", nrow1-nrow2, " row(s) because of illegal tax rate values."))
   return(df)
