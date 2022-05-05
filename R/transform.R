@@ -99,6 +99,14 @@ skd_retail <- function(df) {
     dplyr::mutate(SKD_2PLUS = ifelse(is.na(SKD_2PLUS), SKD_2, SKD_2PLUS))
 }
 
+
+#' Change all empty or NA SKDs into zeros
+#'
+#' @param df data frame output of import functions \link[ddvR]{ddv_import}
+#'
+#' @return data frame with sam dimensions as input
+#' @export
+
 skd_zero <- function(df) {
   df %>%
     dplyr::mutate(SKD_5 = dplyr::na_if(SKD_5, "")) %>%
@@ -109,9 +117,9 @@ skd_zero <- function(df) {
 #' Run thourgh all the transformation steps and at the end also change the
 #' colum names to lowercase, because that's how postgres likes them.
 #'
-#' @param df data frame outpuit from \link[ddvR]{ddv_import}
+#' @param df data frame outpu from \link[ddvR]{ddv_import}
 #'
-#' @return df with 15 columns
+#' @return df with 20 columns
 #' @export
 #'
 ddv_transform <- function(df){

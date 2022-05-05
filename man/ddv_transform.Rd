@@ -9,10 +9,10 @@ colum names to lowercase, because that's how postgres likes them.}
 ddv_transform(df)
 }
 \arguments{
-\item{df}{data frame outpuit from \link[ddvR]{ddv_import}}
+\item{df}{data frame outpu from \link[ddvR]{ddv_import}}
 }
 \value{
-df with 15 columns
+df with 20 columns
 }
 \description{
 Run whole transform sequence
