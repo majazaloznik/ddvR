@@ -110,7 +110,7 @@ skd_retail <- function(df) {
 skd_zero <- function(df) {
   df %>%
     dplyr::mutate(SKD_5 = dplyr::na_if(SKD_5, "")) %>%
-    tidyr::replace_na(list(SKD_2 = 0, SKD_2PLUS = 0, SKD_5 = 0, SKD_ALPHA = 0))
+    tidyr::replace_na(list(SKD_2 = "0", SKD_2PLUS = "0", SKD_5 = "0", SKD_ALPHA = "0"))
 }
 
 #' Run whole transform sequence
