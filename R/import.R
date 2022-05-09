@@ -46,7 +46,7 @@ fix_types <- function(df) {
                   SKD_5 = ST_DEJAVNOSTI) %>%
     dplyr::mutate(dplyr::across(where(is.character) & dplyr::matches(varnames),
                                 ~suppressWarnings(
-                                  as.numeric(gsub(",", "\\.", gsub("\\.", "", OSNOVA_DAVKA)))))) %>%
+                                  as.numeric(gsub(",", "\\.", gsub("\\.", "", .x)))))) %>%
     dplyr::select(-ST_DEJAVNOSTI)
 }
 
