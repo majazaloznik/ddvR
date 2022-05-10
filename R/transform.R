@@ -158,6 +158,7 @@ override_55 <- function(df){
     dplyr::mutate(znesek = ifelse(is.na(znesek.y), znesek.x, znesek.y),
                   znesek_davka = ifelse(is.na(znesek_davka.y), znesek_davka.x, znesek_davka.y),
                   osnova_davka = ifelse(is.na(osnova_davka.y), osnova_davka.x, osnova_davka.y)) %>%
-    dplyr::select(datum, skd_5, znesek, znesek_davka, osnova_davka, stopnja)
+    dplyr::select(-znesek.y, -znesek.x, -znesek_davka.y,
+                  -znesek_davka.x, -osnova_davka.x, -osnova_davka.y)
 }
 

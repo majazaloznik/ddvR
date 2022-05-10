@@ -77,3 +77,9 @@ test_that("hotel data is fixed", {
   expect_equal(hotel_df$znesek[1], 422949, tolerance=1)
   expect_equal(hotel_df$osnova_davka[3], 1755705, tolerance=1)
 })
+
+test_that("override doesn't drop columns or anything weird", {
+  df1 <- ddv_transform(ddv_import(test_path("testdata", "test_import_15.csv")))
+  df2 <- override_55(df1)
+  expect_equal(dim(df1), dim(df2))
+})
