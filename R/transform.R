@@ -139,3 +139,14 @@ ddv_transform <- function(df){
     rlog::log_info(paste0("Completed data transformations.  \n"))
     df
 }
+
+
+override_55 <- function(df){
+  df %>%
+    dplyr::left_join(replacement, by = c("datum", "stopnja", "skd_5")) %>%
+    dplyr::mutate(znesek = ifelse(is.na(znesek.y), znesek.x, znesek.y),
+                  znesek_davka = ifelse(is.na(znesek_davka.y), znesek_davka.x, znesek_davka.y),
+                  osnova_davka = ifelse(is.na(osnova_davka.y), osnova_davka.x, osnova_davka.y)) %>%
+    dplyr::select(datum, skd_5, znesek, znesek_davka, osnova_davka, stopnja)
+}
+

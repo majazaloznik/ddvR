@@ -72,4 +72,8 @@ test_that("transform workflow works", {
 } )
 
 
-
+test_that("hotel data is fixed", {
+  hotel_df <- override_55(ddv_transform(ddv_import(test_path("testdata", "test_import_15.csv"))))
+  expect_equal(hotel_df$znesek[1], 422949, tolerance=1)
+  expect_equal(hotel_df$osnova_davka[3], 1755705, tolerance=1)
+})
