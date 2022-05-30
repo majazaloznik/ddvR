@@ -4,12 +4,15 @@
 \alias{write_to_db}
 \title{Write data frame to postgres}
 \usage{
-write_to_db(df, db)
+write_to_db(df, db = "test", tbl = "davcni_racuni")
 }
 \arguments{
 \item{df}{dataframe output of \link[ddvR]{ddv_transform}}
 
-\item{db}{name of database on the local server with the davcni_racuni table}
+\item{db}{name of database on the local server with the appropriate table}
+
+\item{tbl}{name of the table in the database. defaults to davcni_racuni, but
+might also be test123 for example}
 }
 \value{
 data frame with number of rows in database table.

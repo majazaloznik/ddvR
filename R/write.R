@@ -3,16 +3,17 @@
 #' This code only works with relevant credentials.
 #'
 #' @param df dataframe output of \link[ddvR]{ddv_transform}
-#' @param db name of database on the local server with the davcni_racuni table
-#'
+#' @param db name of database on the local server with the appropriate table
+#' @param tbl name of the table in the database. defaults to davcni_racuni, but
+#' might also be test123 for example
 #' @return data frame with number of rows in database table.
 #' using mock db for testing.
 #'
 #' @export
-write_to_db <- function(df, db) {
+write_to_db <- function(df, db = "test", tbl =  "davcni_racuni") {
   rlog::log_info(paste0("Writing to the ", db, " database."))
 
-  try(RPostgres::dbWriteTable(con, "davcni_racuni", df, row.names=FALSE, append=TRUE))
+  try(RPostgres::dbWriteTable(con, tbl, df, row.names=FALSE, append=TRUE))
 
   query <- "SELECT count(*) from davcni_racuni"
 
