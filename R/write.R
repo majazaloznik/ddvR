@@ -11,18 +11,24 @@
 #'
 #' @export
 write_to_db <- function(df, db = "test", tbl =  "davcni_racuni") {
-  rlog::log_info(paste0("Writing to the ", db, " database."))
+  rlog::log_info(paste0("Attempting to write to the table ", tbl, "."))
 
-  try(RPostgres::dbWriteTable(con, tbl, df, row.names=FALSE, append=TRUE))
-
-  query <- "SELECT count(*) from davcni_racuni"
-
-  out <- dbGetQuery(con, query)
-  n <- out[1,1]
-  rlog::log_info(paste0(nrow(df), " new rows added to the table for a total of ", n, " rows in total." ))
-  rlog::log_info(paste0("This week's total revenues are ", ballpark_last_week(df), " % of the previous week's, just to give you a ballpark idea. \n                        ##################################################################"))
-  invisible(out)
+  tryCatch({
+    RPostgres::dbWriteTable(con, tbl, df, row.names=FALSE, append=TRUE)
+    query <- "SELECT count(*) from davcni_racuni"
+    out <- dbGetQuery(con, query)
+    n <- out[1,1]
+    rlog::log_info(paste0(nrow(df), " new rows added to the table for a total of ", n, " rows in total." ))
+    rlog::log_info(paste0("This week's total revenues are ", ballpark_last_week(df), " % of the previous week's, just to give you a ballpark idea. \n                        ##################################################################"))
+    invisible(out)
+  },
+  error = function(cnd){
+    rlog::log_info(paste0("Writing to ", tbl, " was unsuccessful."))
+    rlog::log_info(paste0("This probably means the data was already in the table. \n
+                          But for the record, this is the original error: \n", cnd))
   }
+  )
+}
 
 
 
