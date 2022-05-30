@@ -15,7 +15,7 @@ write_to_db <- function(df, db = "test", tbl =  "davcni_racuni") {
 
   tryCatch({
     RPostgres::dbWriteTable(con, tbl, df, row.names=FALSE, append=TRUE)
-    query <- "SELECT count(*) from davcni_racuni"
+    query <- paste0("SELECT count(*) from ", tbl)
     out <- dbGetQuery(con, query)
     n <- out[1,1]
     rlog::log_info(paste0(nrow(df), " new rows added to the table for a total of ", n, " rows in total." ))
@@ -24,12 +24,10 @@ write_to_db <- function(df, db = "test", tbl =  "davcni_racuni") {
   },
   error = function(cnd){
     rlog::log_info(paste0("Writing to ", tbl, " was unsuccessful."))
-    rlog::log_info(paste0("This probably means the data was already in the table. \n
-                          But for the record, this is the original error: \n", cnd))
+    rlog::log_info(paste0("This probably means the data was already in the table. But for the record, this is the original error: \n", cnd))
   }
   )
 }
-
 
 
 #' Compare this week's total with last week's
