@@ -81,3 +81,34 @@ email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
 
   gmailr::gm_send_message(text_msg)
 }
+
+
+#' Wrapper function for complete ELT pipeline
+#'
+#' This wrapper function runs the whole pipeline in the \link[ddvR]{ddv_import} and then
+#' \link[ddvR]{ddv_transform} functions and finally \link[ddvR]{write_to_db}, while
+#' logging everything to the sink and emailing the logs to the listed recipients
+#'
+#' @param new_file base filename of the appropriate .csv file that is located in
+#'  O:/Avtomatizacija/furs-surs-soap/data/
+#' @param tbl which table in the database to write to. Default is test123, but the real
+#' one is at davcne_blagajne
+#' @param email One or more emails to send logs to - as character vector. If NA,
+#' no emails are sent.
+#'
+#' @return Nothing, just side effects :). Writes to the database and emails logs.
+#' @export
+#'
+update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznikVgov.si") {
+  log <- paste0("log/log_", format(Sys.time(), "%d-%b-%Y %H.%M.%S"), ".log")
+  sink(log)
+  input <- paste0("O:/Avtomatizacija/furs-surs-soap/data/", new_file)
+  df <- ddv_import(input)
+  df <- ddv_transform(df)
+  write_to_db(df, tbl = tbl)
+  sink()
+  if(!is.na(email)) apply(email, function(who) email_log(log, recipient = who))
+}
+
+
+
