@@ -48,6 +48,8 @@ retail %>%
 
 
 # # replacement data from wrong hotel data was calculated with this code here:
+# # the znesek total values came from Janez, this  code just spreads them out
+# # as necessary.
 
 # new_points <- data.frame(datum = seq(as.Date("2019-12-11"), as.Date("2019-12-15"), by="1 day"),
 #                          znesek = c(1496154, 1829162, 2442374, 1452925, 2041868))
