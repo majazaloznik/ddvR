@@ -18,7 +18,7 @@ write_to_db <- function(df, db = "test", tbl =  "davcni_racuni") {
     query <- paste0("SELECT count(*) from ", tbl)
     out <- dbGetQuery(con, query)
     n <- out[1,1]
-    rlog::log_info(paste0(nrow(df), " new rows added to the table for a total of ", n, " rows in total." ))
+    rlog::log_info(paste0(nrow(df), " new rows added to the table for new a total of ", n, " rows." ))
     rlog::log_info(paste0("This week's total revenues are ", ballpark_last_week(df), " % of the previous week's, just to give you a ballpark idea. \n                        ##################################################################"))
     invisible(out)
   },
@@ -74,8 +74,8 @@ email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
     gmailr::gm_to(recipient) %>%
     gmailr::gm_subject("FURS DDV (VAT) data import") %>%
     gmailr::gm_from("maja.zaloznik@gmail.com") %>%
-    gmailr::gm_text_body(paste("This is an automated email. \n New data",
-                               "has been processed by the ddvR automated script, and the log with more details",
+    gmailr::gm_text_body(paste("This is an automated email. \n",
+                               "New data has been processed by the ddvR automated script, and the log with more details",
                                "is in the attachment.")) %>%
     gmailr::gm_attach_file(log)
 
