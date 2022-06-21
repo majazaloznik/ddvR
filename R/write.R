@@ -107,7 +107,7 @@ update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznikVgov.si"
   df <- ddv_transform(df)
   write_to_db(df, tbl = tbl)
   sink()
-  if(!is.na(email)) apply(email, function(who) email_log(log, recipient = who))
+  if(all(!is.na(email))) sapply(email, function(who) email_log(log, recipient = who))
 }
 
 

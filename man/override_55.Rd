@@ -13,7 +13,7 @@ override_55(df)
 data frame with same dimensions as input
 }
 \description{
-11.-15.12.2019 there was an odd anomally in the data for the code 55.100
+11.-15.12.2019 there was an odd anomaly in the data for the code 55.100
 This function manually replaces the data in the original table with some
 stuff we kinda made up.
 }
