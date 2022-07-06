@@ -64,18 +64,20 @@ ballpark_last_week <- function(df) {
 #'
 #' Convenience wrapper for sending the log
 #' @param log path to log file
-#' @param recipient I think single email is all that's allowed. Haven't tried more
+#' @param recipient email (not checked) address to be sent to as BCC.
+#' I think single email is all that's allowed. Haven't tried more.
 #'
 #' @return nothing, side effect is the email being sent.
 #' @export
 #'
-email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
+email_log <- function(log, recipient = "maja.zaloznik@gmail.com") {
   text_msg <- gmailr::gm_mime() %>%
-    gmailr::gm_to(recipient) %>%
+    gmailr::gm_to("maja.zaloznik@gov.si") %>%
+    gmailr::gm_bcc(recipient) %>%
     gmailr::gm_subject("FURS DDV (VAT) data import") %>%
-    gmailr::gm_from("maja.zaloznik@gmail.com") %>%
-    gmailr::gm_text_body(paste0("To je avtomatsko sporočilo. \n\n",
-                               "Na strežniku umar-bi so v bazo davcni_racuni dodani novi zapisi za pretekli teden.",
+    gmailr::gm_from("umar.data.bot@gmail.com") %>%
+    gmailr::gm_text_body(paste0("To je avtomatsko sporo\u010dilo. \n\n",
+                               "Na stre\u017eniku umar-bi so v bazo davcni_racuni dodani novi zapisi za pretekli teden. ",
                                "V priponki je log z dodatnimi informacijami.")) %>%
     gmailr::gm_attach_file(log)
 
@@ -99,7 +101,7 @@ email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
 #' @return Nothing, just side effects :). Writes to the database and emails logs.
 #' @export
 #'
-update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznikVgov.si") {
+update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznik@gov.si") {
   log <- paste0("log/log_", format(Sys.time(), "%d-%b-%Y %H.%M.%S"), ".log")
   sink(log)
   input <- paste0("O:/Avtomatizacija/furs-surs-soap/data/", new_file)

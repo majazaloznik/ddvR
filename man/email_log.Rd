@@ -9,7 +9,8 @@ email_log(log, recipient = "maja.zaloznik@gov.si")
 \arguments{
 \item{log}{path to log file}
 
-\item{recipient}{I think single email is all that's allowed. Haven't tried more}
+\item{recipient}{email (not checked) address to be sent to as BCC.
+I think single email is all that's allowed. Haven't tried more.}
 }
 \value{
 nothing, side effect is the email being sent.
