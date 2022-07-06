@@ -4,7 +4,7 @@
 \alias{update_ddv}
 \title{Wrapper function for complete ELT pipeline}
 \usage{
-update_ddv(new_file, tbl = "test123", email = "maja.zaloznikVgov.si")
+update_ddv(new_file, tbl = "test123", email = "maja.zaloznik@gov.si")
 }
 \arguments{
 \item{new_file}{base filename of the appropriate .csv file that is located in

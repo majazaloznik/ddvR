@@ -4,7 +4,7 @@
 \alias{email_log}
 \title{Send email with log}
 \usage{
-email_log(log, recipient = "maja.zaloznik@gov.si")
+email_log(log, recipient = "maja.zaloznik@gmail.com")
 }
 \arguments{
 \item{log}{path to log file}
