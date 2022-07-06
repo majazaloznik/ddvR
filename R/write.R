@@ -74,9 +74,9 @@ email_log <- function(log, recipient = "maja.zaloznik@gov.si") {
     gmailr::gm_to(recipient) %>%
     gmailr::gm_subject("FURS DDV (VAT) data import") %>%
     gmailr::gm_from("maja.zaloznik@gmail.com") %>%
-    gmailr::gm_text_body(paste0("This is an automated email. \n\n",
-                               "New data has been processed by the ddvR automated script, and the log with more details ",
-                               "is in the attachment.")) %>%
+    gmailr::gm_text_body(paste0("To je avtomatsko sporočilo. \n\n",
+                               "Na strežniku umar-bi so v bazo davcni_racuni dodani novi zapisi za pretekli teden.",
+                               "V priponki je log z dodatnimi informacijami.")) %>%
     gmailr::gm_attach_file(log)
 
   gmailr::gm_send_message(text_msg)
