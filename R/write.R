@@ -62,7 +62,8 @@ ballpark_last_week <- function(df) {
 
 #' Send email with log
 #'
-#' Convenience wrapper for sending the log
+#' Convenience wrapper for sending the log to a bunch of recipients.
+#'
 #' @param log path to log file
 #' @param recipient email (not checked) address to be sent to as BCC.
 #' I think single email is all that's allowed. Haven't tried more.
@@ -70,15 +71,14 @@ ballpark_last_week <- function(df) {
 #' @return nothing, side effect is the email being sent.
 #' @export
 #'
-email_log <- function(log, recipient = "maja.zaloznik@gmail.com") {
+email_log <- function(log, recipient) {
   text_msg <- gmailr::gm_mime() %>%
-    gmailr::gm_to("maja.zaloznik@gov.si") %>%
     gmailr::gm_bcc(recipient) %>%
     gmailr::gm_subject("FURS DDV (VAT) data import") %>%
-    gmailr::gm_from("umar.data.bot@gmail.com") %>%
-    gmailr::gm_text_body(paste0("To je avtomatsko sporo\u010dilo. \n\n",
-                               "Na stre\u017eniku umar-bi so v bazo davcni_racuni dodani novi zapisi za pretekli teden. ",
-                               "V priponki je log z dodatnimi informacijami.")) %>%
+    gmailr::gm_html_body(paste0("To je avtomatsko sporo\u010dilo. <br><br>",
+                                "Na stre\u017eniku <code>umar-bi</code> so v bazo <code>davcni_racuni</code> dodani novi zapisi za pretekli teden.<br> ",
+                                "V priponki je log z dodatnimi informacijami. <br><br>",
+                                "Tvoj Umar Data Bot &#129302;"))
     gmailr::gm_attach_file(log)
 
   gmailr::gm_send_message(text_msg)
@@ -109,7 +109,8 @@ update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznik@gov.si"
   df <- ddv_transform(df)
   write_to_db(df, tbl = tbl)
   sink()
-  if(all(!is.na(email))) sapply(email, function(who) email_log(log, recipient = who))
+  #if(all(!is.na(email))) sapply(email, function(who) email_log(log, recipient = who))
+  email_log(log, recipient = email)
 }
 
 

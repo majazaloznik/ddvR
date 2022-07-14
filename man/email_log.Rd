@@ -4,7 +4,7 @@
 \alias{email_log}
 \title{Send email with log}
 \usage{
-email_log(log, recipient = "maja.zaloznik@gmail.com")
+email_log(log, recipient)
 }
 \arguments{
 \item{log}{path to log file}
@@ -16,5 +16,5 @@ I think single email is all that's allowed. Haven't tried more.}
 nothing, side effect is the email being sent.
 }
 \description{
-Convenience wrapper for sending the log
+Convenience wrapper for sending the log to a bunch of recipients.
 }
