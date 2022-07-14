@@ -78,7 +78,7 @@ email_log <- function(log, recipient) {
     gmailr::gm_html_body(paste0("To je avtomatsko sporo\u010dilo. <br><br>",
                                 "Na stre\u017eniku <code>umar-bi</code> so v bazo <code>davcni_racuni</code> dodani novi zapisi za pretekli teden.<br> ",
                                 "V priponki je log z dodatnimi informacijami. <br><br>",
-                                "Tvoj Umar Data Bot &#129302;"))
+                                "Tvoj Umar Data Bot &#129302;")) %>%
     gmailr::gm_attach_file(log)
 
   gmailr::gm_send_message(text_msg)
