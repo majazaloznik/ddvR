@@ -97,14 +97,16 @@ email_log <- function(log, recipient) {
 #' one is at davcne_blagajne
 #' @param email One or more emails to send logs to - as character vector. If NA,
 #' no emails are sent.
+#' @param path - path for file which might require UNC style
 #'
 #' @return Nothing, just side effects :). Writes to the database and emails logs.
 #' @export
 #'
-update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznik@gov.si") {
+update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznik@gov.si",
+                       path = "O:/Avtomatizacija/furs-surs-soap/data/") {
   log <- paste0("log/log_", format(Sys.time(), "%d-%b-%Y %H.%M.%S"), ".log")
   sink(log)
-  input <- paste0("O:/Avtomatizacija/furs-surs-soap/data/", new_file)
+  input <- paste0(path, new_file)
   df <- ddv_import(input)
   df <- ddv_transform(df)
   write_to_db(df, tbl = tbl)

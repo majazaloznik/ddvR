@@ -4,7 +4,12 @@
 \alias{update_ddv}
 \title{Wrapper function for complete ELT pipeline}
 \usage{
-update_ddv(new_file, tbl = "test123", email = "maja.zaloznik@gov.si")
+update_ddv(
+  new_file,
+  tbl = "test123",
+  email = "maja.zaloznik@gov.si",
+  path = "O:/Avtomatizacija/furs-surs-soap/data/"
+)
 }
 \arguments{
 \item{new_file}{base filename of the appropriate .csv file that is located in
@@ -15,6 +20,8 @@ one is at davcne_blagajne}
 
 \item{email}{One or more emails to send logs to - as character vector. If NA,
 no emails are sent.}
+
+\item{path}{- path for file which might require UNC style}
 }
 \value{
 Nothing, just side effects :). Writes to the database and emails logs.
