@@ -114,4 +114,23 @@ update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznik@gov.si"
 }
 
 
+#' Get's the new data from gmail
+#'
+#' Every Wednesday the data is sent via gp to the umar.data.bot gmail account..
+#' This function checks for it and if it finds it, it downloads the data to
+#' the data folder
+#'
+#' @return nothing - side effect is downloaded .csv files from the FURS email.
+#' @export
+#'
+get_data_from_gmail <- function() {
+  my_threads <- gm_threads(search = "in:inbox filename:csv newer_than:1d subject:(FURS podatki o davcno potrjenih racunih)")
+  x <- my_threads[[1]]$resultSizeEstimate
+  if (x == 1) {
+    latest_thread <- gm_thread(gm_id(my_threads)[[1]])
+    my_msg <- latest_thread$messages[[1]]
+    gm_save_attachments(my_msg, path = here::here("data"))} else {
+      print("No new data")}
+  x
+}
 
