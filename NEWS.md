@@ -1,4 +1,5 @@
-# ddvR 0.2.0
+
+# ddvR 0.1.2
 
 * Added function to download the FURS data from the gmail account directly
 
