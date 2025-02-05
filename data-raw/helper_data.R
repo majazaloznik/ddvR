@@ -1,3 +1,5 @@
+library(readxl)
+library(dplyr)
 # column names that need to be present
 colz <- c("DATUM", "STOPNJA", "ST_DEJAVNOSTI", "OSNOVA_DAVKA",
           "STEVILO", "ZNESEK", "ZNESEK_DAVKA")
@@ -5,34 +7,58 @@ colz <- c("DATUM", "STOPNJA", "ST_DEJAVNOSTI", "OSNOVA_DAVKA",
 # the only legal tax rates
 ratez <- c("22%", "9,5%",  "9,50%",  "5%", "ostalo", "ostalo ")
 
-# old skd codes that we know hot to recode
+# old skd codes that we know hot to recode 2002 to 2008
 skd_recode_lookup <- list("01.131" = "01.210",
-                          "60.240" = "49.410",
                           "55.232" = "55.202",
-                          "28.520" = "25.520",
-                          "25.240" = "22.290",
                           "45.420" = "43.320")
 
-# get skd lookup table
-library(readxl)
-url <- "https://www.stat.si/Klasje/Klasje/createXlsx?q=5531&s=1"
+# old skd codes that we know hot to recode 2008 to 2025
+url <- "https://www.stat.si/Klasje/Klasje/createXlsx?q=1872s5531s17977&s=4"
+temp <- tempfile()
+download.file(url,temp, mode = "wb")
+nace <- read_excel(temp)
+unlink(temp)
+
+clean <- nace |>
+  dplyr::mutate(
+    `Izvorna kategorija` = stringr::str_remove(`Izvorna kategorija`, "^[A-Za-z]"),
+    `Ciljna kategorija` = stringr::str_remove(`Ciljna kategorija`, "^[A-Za-z]")
+  ) |>
+  dplyr::filter(
+    stringr::str_detect(`Izvorna kategorija`, "^\\d{2}\\.\\d{3}$"),
+    stringr::str_detect(`Ciljna kategorija`, "^\\d{2}\\.\\d{3}$")
+  )
+
+safe_mappings <- clean |>
+  dplyr::group_by(`Ciljna kategorija`) |>
+  dplyr::filter(dplyr::n_distinct(`Izvorna kategorija`) >= 1) |>
+  dplyr::ungroup() |>
+  filter(`Izvorna kategorija` != `Ciljna kategorija`)
+
+# add to the previous ones
+skd_recode_lookup <- c(setNames(safe_mappings$`Ciljna kategorija`,
+                                safe_mappings$`Izvorna kategorija`),
+                       skd_recode_lookup)
+
+# get skd table - this is now SKD 2025
+url <- "https://www.stat.si/Klasje/Klasje/createXlsx?q=17977&s=1"
 temp <- tempfile()
 download.file(url,temp, mode = "wb")
 nace <- read_excel(temp)
 unlink(temp)
 
 # legal 5 digit skd codes
-nace %>%
-  dplyr::filter(nchar(`Šifra kategorije`) == 7) %>%
-  dplyr::mutate(skd.5 = gsub("[^0-9.]+", "", `Šifra kategorije`)) %>%
-  dplyr::select(skd.5) %>%
+nace  |>
+  dplyr::filter(nchar(`Šifra kategorije`) == 7)  |>
+  dplyr::mutate(skd.5 = gsub("[^0-9.]+", "", `Šifra kategorije`)) |>
+  dplyr::select(skd.5) |>
   dplyr::pull()-> skdz
 
-# skd 2 digit to alpha lookup table
-nace %>%
-  dplyr::filter(nchar(`Šifra kategorije`) == 3) %>%
+# skd 2 digit to alpha lookup table (in 2025 missing 45)
+nace  |>
+  dplyr::filter(nchar(`Šifra kategorije`) == 3) |>
   dplyr::mutate(SKD_ALPHA = gsub("[0-9$]{2}", "", `Šifra kategorije`),
-                SKD_2 = gsub("^[A-z]+", "", `Šifra kategorije`)) %>%
+                SKD_2 = gsub("^[A-z]+", "", `Šifra kategorije`)) |>
   dplyr::select(SKD_2, SKD_ALPHA) -> skd_aplha_lookup
 
 # skd codes that we like to remove sometimes
@@ -41,7 +67,7 @@ skd_filter_codes <- c(35, 36, 52, 61, 64)
 # skd code grouping for retail sales
 retail <- read.csv2("data-raw/47.csv")
 
-retail %>%
+retail |>
   dplyr::mutate(SKD_5 = gsub("[A-z]{1}", "", SKD_5)) -> retail_codes
 
 
@@ -108,3 +134,4 @@ usethis::use_data(colz,
                   retail_codes,
                   replacement,
                   internal = TRUE, overwrite = TRUE)
+#
