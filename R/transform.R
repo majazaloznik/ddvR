@@ -136,6 +136,17 @@ ddv_transform <- function(df){
   x %>%
     skd_zero() -> df
     names(df) <- tolower(names(df))
+
+    df <- df |>
+      dplyr::ungroup() |>
+      dplyr::mutate(
+        dan = as.integer(dan),
+        mesec = as.integer(mesec),
+        leto = as.integer(leto),
+        teden = as.integer(teden),
+        across(where(is.character), enc2utf8)
+      )
+
     rlog::log_info(paste0("Completed data transformations.  \n"))
     df
 }

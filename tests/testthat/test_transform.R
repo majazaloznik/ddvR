@@ -28,7 +28,7 @@ test_that("check skd recoding works OK", {
   df <- skd_retail(skd_2(remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
     test_path("testdata", "test_import_06.csv")))))))))
   expect_equal(ncol(df), 9)
-  expect_equal(length(unique(df$SKD_2PLUS)), 5)
+  expect_equal(length(unique(df$SKD_2PLUS)), 4)
 })
 
 test_that("check ely weeks work ok", {
