@@ -104,7 +104,7 @@ email_log <- function(log, recipient) {
 #'
 update_ddv <- function(new_file, tbl = "test123", email = "maja.zaloznik@gov.si",
                        path = "O:/Avtomatizacija/furs-surs-soap/data/") {
-  log <- paste0("log/log_", format(Sys.time(), "%d-%b-%Y %H.%M.%S"), ".log")
+  log <- paste0("log/log_", format(Sys.time(), "%d-%b-%Y %H.%M.%S"), ".txt")
   sink(log)
   input <- paste0(path, new_file)
   df <- ddv_import(input)
