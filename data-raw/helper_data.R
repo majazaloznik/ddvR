@@ -30,10 +30,10 @@ clean <- nace |>
   )
 
 safe_mappings <- clean |>
-  dplyr::group_by(`Ciljna kategorija`) |>
-  dplyr::filter(dplyr::n_distinct(`Izvorna kategorija`) >= 1) |>
+  dplyr::group_by(`Izvorna kategorija`) |>
+  dplyr::filter(dplyr::n_distinct(`Ciljna kategorija`) == 1L) |>
   dplyr::ungroup() |>
-  filter(`Izvorna kategorija` != `Ciljna kategorija`)
+  dplyr::filter(`Izvorna kategorija` != `Ciljna kategorija`)
 
 # add to the previous ones
 skd_recode_lookup <- c(setNames(safe_mappings$`Ciljna kategorija`,
