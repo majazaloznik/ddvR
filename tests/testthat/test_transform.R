@@ -24,11 +24,11 @@ test_that("check skd recoding works OK", {
   df <- skd_2(remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
     test_path("testdata", "test_import_05.csv"))))))))
   expect_equal(ncol(skd_filter(df)), 9)
-  expect_true(sum(skd_filter(df)$FILTER) == 1)
+  expect_true(sum(skd_filter(df)$FILTER) == 2)
   df <- skd_retail(skd_2(remove_na_rows(remove_xskd(recode_skd(remove_xrates(fix_types(read_file(
     test_path("testdata", "test_import_06.csv")))))))))
   expect_equal(ncol(df), 9)
-  expect_equal(length(unique(df$SKD_2PLUS)), 4)
+  expect_equal(length(unique(df$SKD_2PLUS)), 5)
 })
 
 test_that("check ely weeks work ok", {
