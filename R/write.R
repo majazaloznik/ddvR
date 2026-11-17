@@ -38,11 +38,12 @@ write_to_db <- function(df, db = "test", tbl =  "davcni_racuni") {
 #' it doesn't matter and i can't be bothered.
 #'
 #' @param df dataframe output of \link[ddvR]{ddv_transform}
+#' @param database connection
 #'
 #' @return single value expressed as percentage of previous week's total
 #' @export
 #'
-ballpark_last_week <- function(df) {
+ballpark_last_week <- function(df, con) {
 
   df %>% dplyr::ungroup() %>%
     dplyr::summarise(wk = min(teden)) %>%  dplyr::pull() -> a

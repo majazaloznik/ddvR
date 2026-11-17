@@ -4,10 +4,12 @@
 \alias{ballpark_last_week}
 \title{Compare this week's total with last week's}
 \usage{
-ballpark_last_week(df)
+ballpark_last_week(df, con)
 }
 \arguments{
 \item{df}{dataframe output of \link[ddvR]{ddv_transform}}
+
+\item{database}{connection}
 }
 \value{
 single value expressed as percentage of previous week's total
