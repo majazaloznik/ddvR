@@ -9,7 +9,7 @@ ballpark_last_week(df, con)
 \arguments{
 \item{df}{dataframe output of \link[ddvR]{ddv_transform}}
 
-\item{database}{connection}
+\item{con}{connection}
 }
 \value{
 single value expressed as percentage of previous week's total

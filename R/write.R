@@ -38,7 +38,7 @@ write_to_db <- function(df, db = "test", tbl =  "davcni_racuni") {
 #' it doesn't matter and i can't be bothered.
 #'
 #' @param df dataframe output of \link[ddvR]{ddv_transform}
-#' @param database connection
+#' @param con connection
 #'
 #' @return single value expressed as percentage of previous week's total
 #' @export
